@@ -4,10 +4,10 @@ from torchcraft import replayer
 import pandas as pd
 
 
-class Pipeline():
-    def __init__(self, replay, num_players=2):
-        self.replay = replay
-        self.gamelength = len(replay)
+class SCPipeline():
+    def __init__(self, replay_file, num_players=2):
+        self.replay = replayer.load(replay_file)
+        self.gamelength = len(self.replay)
         self.unit_id_dict = tc.Constants.unittypes._dict
         self.num_players = num_players
         self.races = {}
@@ -68,7 +68,6 @@ class Pipeline():
     def get_strategy(self, minutes):
         '''
         minutes: int, number of minutes from start of game to collect data on. Note that there are 8 frames per second so 480 frames per minute
-        returns (pandas dataframe) single row with a column indicating race, and a column of counts for each unit built
         returns (list of pandas series, one for each player)
         '''
         strat = self.units_built(xrange(min(minutes*480, self.gamelength)))
@@ -82,5 +81,4 @@ class Pipeline():
 
 
 if __name__ == '__main__':
-    rep = replayer.load("bwrep_70921.tcr")
-    pipe = Pipeline(rep)
+    pipe = SCPipeline("data/bwrep_70921.tcr")
