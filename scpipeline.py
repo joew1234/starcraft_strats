@@ -68,18 +68,25 @@ class SCPipeline():
             old_units = new_units
         return units_built
 
-    def get_units_dfs(self, minutes):
+    def get_units_dfs(self, minutes, scale=True):
         '''
         minutes: int, number of minutes from start of game to collect data on. Note that there are 8 frames per second so 480 frames per minute
+        scale: bool, replaces counts with % of total units if true
         returns (list of pandas series, one for each player)
         '''
         strat = self.units_built(xrange(min(minutes*480, self.gamelength)))
-        strat_list = []
+        units_list = []
         for pid in range(self.num_players):
             series = pd.Series(strat[pid])
+            if scale:
+                series = self.unit_count_scaler(series)
             series['race'] = self.races[pid]
-            strat_list.append(series)
-        return strat_list
+            series['gamelength'] = self.gamelength #note that the units for this is # of frames
+            units_list.append(series)
+        return units_list
+
+    def unit_count_scaler(self, series):
+        return series/(sum(series))
 
     def get_building_count(self, frame_id):
         building_count={}
