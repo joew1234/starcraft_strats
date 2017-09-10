@@ -82,6 +82,7 @@ class SCPipeline():
                 series = self.unit_count_scaler(series)
             series['race'] = self.races[pid]
             series['gamelength'] = self.gamelength #note that the units for this is # of frames
+            series['Won'] = pid == self.winner
             units_list.append(series)
         return units_list
 
@@ -137,6 +138,7 @@ class SCPipeline():
         return -1 #-1 means tie
 
 
-
+'''
 if __name__ == '__main__':
     pipe = SCPipeline("data/bwrep_70921.tcr")
+'''
