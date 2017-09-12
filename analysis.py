@@ -1,6 +1,7 @@
 import pandas as pd
 from collections import defaultdict, Counter
 from statsmodels.stats.proportion import proportions_ztest
+from numpy import argsort
 
 def print_units(strat, num_units=5):
     for row in strat.iterrows():
@@ -14,9 +15,36 @@ def game_strat_counts(unit_df, strat_df):
     game_strats_df = game_strats(unit_df, strat_df)
     return game_strats_df.idxmax().value_counts()
 
+def top_n_strats(unit_df, strat_df, n):
+    game_strats_df = game_strats(unit_df, strat_df)
+    top_strats_df = argsort(game_strats_df, axis=0).iloc[-n:,:]
+    return top_strats_df
+
+def strat_pairs_column(unit_df, strat_df):
+    top_strats_df = top_n_strats(unit_df, strat_df, 2)
+    top_strats_df = top_strats_df.applymap(lambda x: x+1)
+    top_strats_df = top_strats_df.applymap(str)
+    top_strats_df = top_strats_df.iloc[0]+top_strats_df.iloc[1]
+    top_strats_df = top_strats_df.apply(lambda x: ''.join(sorted(x)))
+    return top_strats_df
+
 def strat_column(unit_df, strat_df):
     game_strats_df = game_strats(unit_df, strat_df)
     return game_strats_df.idxmax()
+
+def get_all_strats_pairs_column(zerg, protoss, terran, zerg_strat, protoss_strat, terran_strat):
+    z = strat_pairs_column(zerg, zerg_strat)
+    p = strat_pairs_column(protoss, protoss_strat)
+    t = strat_pairs_column(terran, terran_strat)
+    col = pd.concat([z,p,t])
+    col.sort_index(inplace=True)
+    return col
+
+def add_strat_pair_column(df, zerg, protoss, terran, zerg_strat, protoss_strat, terran_strat):
+    col = get_all_strats_pairs_column(zerg, protoss, terran, zerg_strat, protoss_strat, terran_strat)
+    df['Strategy Pairs'] = col
+    return df
+
 
 def clean_zerg(zerg_df):
     zerg_df.drop(['Zerg_Larva', 'Zerg_Egg'],axis=1, inplace=True)
@@ -37,7 +65,7 @@ def get_all_strats_column(zerg, protoss, terran, zerg_strat, protoss_strat, terr
 
 def add_strat_col(df, zerg, protoss, terran, zerg_strat, protoss_strat, terran_strat):
     col = get_all_strats_column(zerg, protoss, terran, zerg_strat, protoss_strat, terran_strat)
-    df['Strategy']=col
+    df['Strategy'] = col
     return df
 
 def get_mu(df):
@@ -77,6 +105,9 @@ def print_matchup_results(df):
         print "Winner: ", result[0][1]
         print "Won {}% of {} games".format(100*result[1][0], result[1][1])
         print "----------------------"
+
+def get_strat_pair_counts(df):
+    return df.groupby(['race', 'Strategy Pairs']).count()
 
 
 #Zerg: 4 strats
