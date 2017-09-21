@@ -42,10 +42,10 @@ Some problems I encountered in both the original data set as well as while worki
 
 #### Next Steps:
 Some useful ways to extend this project:
--Incorporate this information into an AI playing starcraft.
--Incorporate more game state information: Location, time, map, unit destruction
--Take advantage of soft clustering property of NMF (strategy pairs? interactions?)
--Late game strategies
+ -Incorporate this information into an AI playing starcraft.
+ -Incorporate more game state information: Location, time, map, unit destruction
+ -Take advantage of soft clustering property of NMF (strategy pairs? interactions?)
+ -Late game strategies
 
 ###### Credits
 Special thanks to:
