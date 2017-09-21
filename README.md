@@ -12,18 +12,18 @@ Starcraft is a real time strategy computer game simulating war between two playe
 #### Motivation
 I have loved the Starcraft franchise since I was young. I came across the stardata dataset (https://github.com/TorchCraft/StarData) on gitlogs while looking for a capstone project and knew I had to do something with it. The dataset itself had 50,000 full game replays. The size of that dataset should be both an interesting challenge and useful for machine learning.
 
-#### Data:
+#### Data
 The dataset and description is provided here:
 https://github.com/TorchCraft/StarData
 
-###### Description of Dataset:
+###### Description of Dataset
 -50,000 game replay files  
 -Full state information split into frames, with 8 frames captured per second. With an average game length of 15 minutes, this means that there are 50,000 games * 15 minutes * 60 seconds/minutes * 8 frames/second = 360,000,000 or 360 million frames in total!  
 -Total file size was 500 gigabytes when uncompressed.  
 -Each frame has full state information about the map, units and building of each player  
 Python library pytorch was included with the data which can extract information from the replay files.  
 
-###### Data Pipeline:
+###### Data Pipeline
 -In my src/scpipeline.py module, I have a SCPipeline class that takes a single replay file as input. This class then stores all general state information like race of each player and winner of the game.  
 -Note that the games do not have winner stored in them so I had to create an algorithm to determine the winner. The winner is determined first by if one player has run out of buildings (the actual win condition of the game), then by which player has the most army units (if one player leaves before losing all buildings, it's probably because their inferior army size), if the army counts are tied, then the highest building count wins. Finally, if army and building counts are tied, I just called it a tie.  
 -My SCPipeline class has a method, get_units_df, that keeps track of units gained from one frame to the next and totals them up for a specified amount of time (10 minutes for my analysis).  
@@ -31,7 +31,7 @@ Python library pytorch was included with the data which can extract information 
 -model.py also has the code that performs NMF to the resulting matrix  
 -Finally, my src/analysis.py module extracts relevent information like matchup win rates for each strategy  
 
-##### Potential Problems:
+##### Potential Problems
 Some problems I encountered in both the original data set as well as while working on the project:  
 -No documentation on torchcraft: The python portion of torchcraft had no documentation which led to a lot of time spent playing with and guessing at the meaning of its methods  
 -My pipeline was written so that it would not keep processing if a file threw an error. Only finished processing half of all replay files  
@@ -40,7 +40,7 @@ Some problems I encountered in both the original data set as well as while worki
 -NMF was used more to be different and see if it would work than anything else. Original authors of torchcraft used k-means. Didn’t have time to do anything with soft clustering property of NMF  
 -My initial round of clustering left me with strategies that were ~80% of the games for their respective races. This was not interesting so I removed them.  
 
-#### Next Steps:
+#### Next Steps
 Some useful ways to extend this project:  
 -Incorporate this information into an AI playing starcraft.  
 -Incorporate more game state information: Location, time, map, unit destruction  
