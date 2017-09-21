@@ -31,7 +31,7 @@ Python library pytorch was included with the data which can extract information 
 -model.py also has the code that performs NMF to the resulting matrix  
 -Finally, my src/analysis.py module extracts relevent information like matchup win rates for each strategy  
 
-###### Potential Problems:
+##### Potential Problems:
 Some problems I encountered in both the original data set as well as while working on the project:  
 -No documentation on torchcraft: The python portion of torchcraft had no documentation which led to a lot of time spent playing with and guessing at the meaning of its methods  
 -My pipeline was written so that it would not keep processing if a file threw an error. Only finished processing half of all replay files  
@@ -47,7 +47,7 @@ Some useful ways to extend this project:
 -Take advantage of soft clustering property of NMF (strategy pairs? interactions?)  
 -Late game strategies  
 
-###### Credits
+##### Credits
 Special thanks to:  
 Lin, Z., G., Jonas, K., Vasil, Synnaeve, G. for creating and maintaining stardata dataset and torchcraft  
 Ivan C. and Moses M., my scrum leaders  
