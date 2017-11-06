@@ -1,5 +1,6 @@
 ## Starcraft Strategies
 
+single file processing in scpipeline.py, multifile processing in model.py, manipulation and stats computed with analysis.py. Results are in results.txt but it's ugly at the moment.
 
 #### Description
 
@@ -30,6 +31,9 @@ Python library pytorch was included with the data which can extract information 
 -My src/model.py module can take an entire directory of replay files and uses SCPipeline to extract information from each and aggregates them into a pandas dataframe.  
 -model.py also has the code that performs NMF to the resulting matrix  
 -Finally, my src/analysis.py module extracts relevent information like matchup win rates for each strategy  
+
+###### Results
+Look in src/results.txt, but it's not formatted yet.
 
 ##### Potential Problems
 Some problems I encountered in both the original data set as well as while working on the project:  
